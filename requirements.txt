@@ -1,0 +1,7 @@
+dbt
+dbt-core
+dbt-bigquery
+markupsafe
+python-dotenv
+sqlfluff
+sqlfluff-templater-dbt

@@ -1,0 +1,71 @@
+version: 2
+
+models:
+
+  - name: political_hashtags_by_user
+    description: >
+      Aggregated analysis of hashtag usage by Twitter users, with a focus on political actors.
+      Contains usage statistics and user details including political affiliations.
+    columns:
+      - name: user_id
+        description: Unique identifier for the user
+      - name: hashtag
+        description: The hashtag being analyzed
+      - name: usage_count
+        description: Number of times user has used this hashtag
+      - name: first_used_at
+        description: Timestamp of first hashtag usage by user
+      - name: last_used_at
+        description: Timestamp of most recent hashtag usage by user
+      - name: name
+        description: Display name of the user
+      - name: screen_name
+        description: Twitter handle of user (lowercase)
+      - name: followers_count
+        description: Number of followers
+      - name: friends_count
+        description: Number of accounts being followed
+      - name: is_politician
+        description: Boolean indicating if user is a politician
+      - name: party
+        description: Political party affiliation
+      - name: institution
+        description: Political institution affiliation
+      - name: office
+        description: Political office held
+      - name: region
+        description: Geographic region represented
+      - name: gender
+        description: Gender of the user
+      - name: year_of_birth
+        description: Birth year of user
+
+  - name: hashtag_categories_exploded
+    description: >
+      Exploded view of hashtag categories where each hashtag-category pair is on a separate row.
+      Categories are split from semicolon-delimited lists.
+    columns:
+      - name: hashtag
+        description: Individual hashtag
+      - name: usage_count
+        description: Number of times the hashtag was used
+      - name: unique_users
+        description: Count of unique users who used this hashtag
+      - name: politician_users
+        description: Count of politicians who used this hashtag
+      - name: first_used_at
+        description: Timestamp of earliest usage
+      - name: last_used_at
+        description: Timestamp of most recent usage
+      - name: pct_political_users
+        description: Percentage of users who are politicians
+      - name: days_active
+        description: Number of days between first and last usage
+      - name: category
+        description: Individual category assigned to the hashtag (trimmed)
+
+  - name: relevant_tweets
+    description: >
+      A curated list of tweets that are relevant to the analysis of political hashtags.
+      Includes tweets that are tagged with a hashtag, and tweets that are referenced by
+      other tweets tagged with the same hashtag.

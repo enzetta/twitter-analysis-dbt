@@ -1,0 +1,14 @@
+ba_twitter_analysis:
+  outputs:
+    dev:
+      dataset: twitter_analysis
+      job_execution_timeout_seconds: 900
+      job_retries: 1
+      keyfile: .secrets/service-account.json
+      location: EU
+      method: service-account
+      priority: interactive
+      project: grounded-nebula-408412
+      threads: 4
+      type: bigquery
+  target: dev

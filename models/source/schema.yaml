@@ -1,0 +1,208 @@
+version: 2
+
+sources:
+  - name: src_twitter
+    database: twitter
+    description: Raw Twitter data from Zenodo dataset
+    tables:
+      - name: raw-zenodo
+        description: >
+          Raw Twitter data containing tweets, user information, and interactions between 2020-2021
+          for German and English tweets
+        columns:
+          - name: twista
+            description: Version of the Twista tool used for data collection
+          - name: type
+            description: Type of entry (retweet, reply, quote, user, status)
+          - name: id
+            description: Unique identifier for the tweet or user
+          - name: user
+            description: User ID associated with the entry
+          - name: created_at
+            description: Timestamp of when the tweet was created
+          - name: recorded_at
+            description: Timestamp of when the tweet was recorded by twista (scraper model)
+          - name: source
+            description: Source application or tool used to post the tweet
+          - name: retweets
+            description: Number of retweets
+          - name: favourites
+            description: Number of favourites (likes)
+          - name: lang
+            description: Language of the tweet
+          - name: hashtags
+            description: List of hashtags used in the tweet
+          - name: urls
+            description: List of URLs used in the tweet
+          - name: mentions
+            description: Usernames mentioned in the tweet
+          - name: mentioned_ids
+            description: User IDs of the mentioned users
+          - name: text
+            description: Text content of the tweet
+          - name: refers_to
+            description: ID of the tweet to which it refers (in replies, retweets or quotes)
+          - name: name
+            description: Display name of the user
+          - name: screen_name
+            description: Username of the user
+          - name: location
+            description: User defined location for their account
+          - name: description
+            description: The user defined description of the profile
+          - name: url
+            description: URL provided by the user in their profile
+          - name: verified
+            description: Boolean indicating whether the user is verified
+          - name: followers
+            description: Number of followers
+          - name: friends
+            description: Number of accounts the user is following
+          - name: listed
+            description: Number of public lists that this user is a member of
+          - name: statuses
+            description: Number of tweets (including retweets) issued by the user
+
+  - name: spreadsheets
+    description: External spreadsheet data sources for political information
+    tables:
+      - name: ext_epi_netz_de
+        description: >
+          External data mapping German politicians to their Twitter accounts with additional metadata
+          from the EPI network dataset
+        columns:
+          - name: id
+            description: Twitter user ID of the politician
+          - name: official_name
+            description: Official name of the politician
+          - name: party
+            description: Political party affiliation
+          - name: region
+            description: Geographic region represented
+          - name: institution
+            description: Political institution (e.g. Bundestag)
+          - name: office
+            description: Political office held
+          - name: twitter_name
+            description: Official Twitter display name
+          - name: twitter_handle
+            description: Twitter username
+          - name: year_of_birth
+            description: Birth year of politician
+          - name: abgeordnetenwatch_id
+            description: ID from abgeordnetenwatch.de platform
+          - name: gender
+            description: Gender of the politician
+          - name: wikidata_id
+            description: Wikidata entity ID for the politician
+
+models:
+  - name: users
+    description: >
+      Base model for Twitter users data, containing cleaned and typed information from raw users.
+      Only includes users created before end of 2021.
+    columns:
+      - name: user_id
+        description: Unique identifier for the user
+      - name: name
+        description: Display name of the user
+      - name: screen_name
+        description: Lowercase username of the user
+      - name: location
+        description: User defined location
+      - name: description  
+        description: User profile description
+      - name: url
+        description: Profile URL
+      - name: lang
+        description: User language setting
+      - name: verified
+        description: Boolean indicating if user is verified
+      - name: followers_count
+        description: Number of followers
+      - name: friends_count
+        description: Number of users being followed
+      - name: listed_count
+        description: Number of lists containing this user
+      - name: statuses_count 
+        description: Total number of tweets
+      - name: favourites_count
+        description: Number of tweets liked
+      - name: created_at_date
+        description: Date user account was created
+      - name: recorded_at_date
+        description: Date user data was recorded
+      - name: created_at
+        description: Timestamp when user was created 
+      - name: recorded_at
+        description: Timestamp when user was recorded
+
+  - name: interactions
+    description: >
+      Base model for Twitter interactions, containing cleaned and typed data from raw tweets.
+      Includes tweets from 2020-2021 in German and English languages.
+    columns:
+      - name: tweet_id
+        description: Unique identifier for the tweet
+      - name: user_id  
+        description: User who created the tweet
+      - name: source_application
+        description: Application used to post tweet
+      - name: retweet_count
+        description: Number of retweets
+      - name: favourite_count
+        description: Number of likes/favourites
+      - name: lang
+        description: Tweet language
+      - name: type
+        description: Type of interaction (tweet, retweet, etc)
+      - name: hashtags
+        description: Array of hashtags used
+      - name: urls
+        description: Array of URLs included
+      - name: mentioned_ids
+        description: Array of mentioned user IDs
+      - name: raw_text
+        description: Original unprocessed tweet text
+      - name: text
+        description: Cleaned tweet text with URLs removed
+      - name: refers_to
+        description: ID of referenced tweet if reply/quote
+      - name: created_at_date
+        description: Date tweet was created
+      - name: recorded_at_date
+        description: Date tweet was recorded
+      - name: created_at
+        description: Timestamp of tweet creation
+      - name: recorded_at
+        description: Timestamp when tweet was recorded
+
+  - name: ext_epi_netz_de
+    description: >
+      External data mapping German politicians to their Twitter accounts and containing additional 
+      political metadata. Sources from the EPI network dataset.
+    columns:
+      - name: user_id
+        description: Twitter user ID of the politician (cast to string)
+      - name: official_name
+        description: Official name of the politician
+      - name: party
+        description: Political party affiliation
+      - name: region
+        description: Geographic region represented
+      - name: institution
+        description: Political institution (e.g. Bundestag)
+      - name: office
+        description: Political office held
+      - name: twitter_name
+        description: Official Twitter display name
+      - name: twitter_handle
+        description: Twitter username (converted to lowercase)
+      - name: year_of_birth
+        description: Birth year of politician (cast to integer)
+      - name: abgeordnetenwatch_id
+        description: ID from abgeordnetenwatch.de platform (cast to integer)
+      - name: gender
+        description: Gender of the politician
+      - name: wikidata_id
+        description: Wikidata entity ID for the politician
