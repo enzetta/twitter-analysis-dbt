@@ -15,7 +15,7 @@ WITH split_categories AS (
         pct_political_users,
         days_active,
         TRIM(category) AS category
-    FROM {{ ref('bigquery_ready_v2') }},
+    FROM {{ ref('hashtag_categorisation') }},
         UNNEST(SPLIT(categories, ';')) AS category
 )
 

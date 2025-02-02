@@ -14,7 +14,7 @@ SELECT
     pct_political_users,
     days_active,
     ARRAY_AGG(TRIM(cat)) AS categories
-FROM {{ ref('bigquery_ready_v2') }},
+FROM {{ ref('hashtag_categorisation') }},
     UNNEST(SPLIT(categories, ';')) AS cat
 GROUP BY
     hashtag,

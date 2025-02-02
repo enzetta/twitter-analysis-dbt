@@ -78,4 +78,4 @@ FROM
 ORDER BY
     politician_tweets DESC
 LIMIT
-    25000;
+    25000
