@@ -55,7 +55,7 @@ politician_data AS (
         region,
         gender,
         year_of_birth
-    FROM {{ ref('02_politically_engaged_users') }}
+    FROM {{ ref('01_political_users') }}
 ),
 
 hashtag_categories AS (
