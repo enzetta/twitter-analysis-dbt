@@ -22,7 +22,7 @@ WITH predictions AS (
             ELSE 1 - toxicity_score
         END AS adjusted_toxicity_score,
         (positive_probability - negative_probability) AS sentiment_score
-    FROM {{ source("src_twitter", "backup_tweet_sentiment_analysis") }}
+    FROM {{ source("src_twitter", "tweet_sentiment_analysis") }}
 )
 
 SELECT 

@@ -6,6 +6,7 @@ sources:
     schema: twitter  # Correct dataset
     description: Raw Twitter data from Zenodo dataset
     tables:
+      - name: raw-zenodo-2022-11
       - name: raw-zenodo
         description: >
           Raw Twitter data containing tweets, user information, and interactions between 2020-2021
@@ -126,7 +127,7 @@ sources:
           - name: confidence
             description: Confidence score (0-1) indicating the reliability of the categorization.
 
-      - name: backup_tweet_sentiment_analysis
+      - name: tweet_sentiment_analysis
         description: >
           Table containing sentiment and toxicity analysis predictions for tweets, 
           along with associated probabilities and timestamps.

@@ -10,6 +10,7 @@ WITH relevant_tweets AS (
         tweet_id,
         user_id,
         created_at,
+        type,
         refers_to_user_id AS refers_to_user_id,
         refers_to AS refers_to_tweet_id,
         mentioned_ids,
@@ -55,7 +56,7 @@ politician_data AS (
         region,
         gender,
         year_of_birth
-    FROM {{ ref('02_politically_engaged_users') }}
+    FROM {{ ref('01_political_users') }}
 ),
 
 hashtag_categories AS (
@@ -85,6 +86,7 @@ final AS (
         u.location,
         u.name,
         td.created_at,
+        td.type,
         td.refers_to_user_id,
         td.refers_to_tweet_id,
         td.mentioned_ids,

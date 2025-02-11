@@ -10,15 +10,26 @@
   ) 
 }}
 
-WITH raw_data AS (
+WITH all_tables AS (
+
     SELECT *
     FROM {{ source("src_twitter", "raw-zenodo") }}
+
+    UNION ALL
+    
+    SELECT *
+    FROM {{ source("src_twitter", "raw-zenodo-2022-11") }}
+),
+
+raw_data AS (
+    SELECT *
+    FROM all_tables
     WHERE
         type NOT IN ('user')
         -- AND created_at >= '2020-09-01'
         AND created_at >= '2020-01-01'
         AND created_at <= '2021-12-31'
-        AND lang IN ('de', 'en')
+        AND lang IN ('de', 'en', null)
         {% if is_incremental() %}
             AND FALSE
         {% endif %}
