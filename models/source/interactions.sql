@@ -10,7 +10,7 @@
   ) 
 }}
 
-WITH all_tables AS (
+WITH source_data AS (
 
     SELECT *
     FROM {{ source("src_twitter", "raw-zenodo") }}
@@ -23,7 +23,7 @@ WITH all_tables AS (
 
 raw_data AS (
     SELECT *
-    FROM all_tables
+    FROM source_data
     WHERE
         type NOT IN ('user')
         -- AND created_at >= '2020-09-01'

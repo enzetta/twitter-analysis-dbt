@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-dbt-core
-=======
 dbt-core==1.9.2
->>>>>>> 241367bb618ce484dc7124b46819dd69a7ef612b
 dbt-bigquery
 markupsafe
 python-dotenv

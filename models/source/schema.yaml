@@ -127,6 +127,7 @@ sources:
           - name: confidence
             description: Confidence score (0-1) indicating the reliability of the categorization.
 
+      - name: backup_tweet_sentiment_analysis
       - name: tweet_sentiment_analysis
         description: >
           Table containing sentiment and toxicity analysis predictions for tweets, 
