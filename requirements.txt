@@ -1,5 +1,4 @@
-dbt
-dbt-core
+dbt-core==1.9.2
 dbt-bigquery
 markupsafe
 python-dotenv

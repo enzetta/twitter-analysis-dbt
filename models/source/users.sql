@@ -10,9 +10,20 @@
   ) 
 }}
 
-WITH source AS (
+WITH all_tables AS (
+
     SELECT *
     FROM {{ source("src_twitter", "raw-zenodo") }}
+
+    UNION ALL
+    
+    SELECT *
+    FROM {{ source("src_twitter", "raw-zenodo-2022-11") }}
+),
+
+source AS (
+    SELECT *
+    FROM all_tables
     WHERE
         type = 'user'
         AND created_at <= '2021-12-31'

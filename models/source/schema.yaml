@@ -6,6 +6,7 @@ sources:
     schema: twitter  # Correct dataset
     description: Raw Twitter data from Zenodo dataset
     tables:
+      - name: raw-zenodo-2022-11
       - name: raw-zenodo
         description: >
           Raw Twitter data containing tweets, user information, and interactions between 2020-2021
