@@ -159,3 +159,4 @@ make lint-fix
 ## **License & Acknowledgements**
 This project is part of a **Bachelor's Thesis** analyzing social media polarization. Data sources include **Zenodo's Twitter dataset** and **publicly available information on German politicians**.
 
+export GOOGLE_APPLICATION_CREDENTIALS=.secrets/service-account.json

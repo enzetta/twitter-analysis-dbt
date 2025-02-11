@@ -8,7 +8,7 @@ sql_file_exts = .sql
 
 [sqlfluff:templater:dbt]
 project_dir = ./
-profiles_dir = /Users/calvindudek/.dbt
+profiles_dir = ./
 profile = ba_twitter_analysis
 target = dev
 

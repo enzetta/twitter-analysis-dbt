@@ -13,6 +13,7 @@ WITH relevant_tweets AS (
         refers_to_user_id AS refers_to_user_id,
         refers_to AS refers_to_tweet_id,
         mentioned_ids,
+        type,
         hashtags,
         text
     FROM {{ ref('relevant_tweets') }}
@@ -89,8 +90,15 @@ final AS (
         td.mentioned_ids,
         td.hashtags,
         td.text,
-        st.toxicity_score,
-        st.sentiment_score,
+        td.type,
+        CASE 
+            WHEN td.type = 'retweet' THEN st_original.toxicity_score
+            ELSE st.toxicity_score
+        END AS toxicity_score,
+        CASE 
+            WHEN td.type = 'retweet' THEN st_original.sentiment_score
+            ELSE st.sentiment_score
+        END AS sentiment_score,
         pd.party,
         pd.office,
         pd.institution,
@@ -99,10 +107,17 @@ final AS (
         pd.year_of_birth,
         tc.aggregated_categories
     FROM relevant_tweets AS td
-    LEFT JOIN sentiment_toxicity AS st ON td.tweet_id = st.tweet_id
-    LEFT JOIN politician_data AS pd ON td.user_id = pd.user_id
-    LEFT JOIN users AS u ON td.user_id = u.user_id
-    LEFT JOIN tweet_categories AS tc ON td.tweet_id = tc.tweet_id
+    LEFT JOIN sentiment_toxicity AS st 
+        ON td.tweet_id = st.tweet_id
+    -- Join for original tweet sentiment/toxicity scores
+    LEFT JOIN sentiment_toxicity AS st_original 
+        ON td.refers_to_tweet_id = st_original.tweet_id
+    LEFT JOIN politician_data AS pd 
+        ON td.user_id = pd.user_id
+    LEFT JOIN users AS u 
+        ON td.user_id = u.user_id
+    LEFT JOIN tweet_categories AS tc 
+        ON td.tweet_id = tc.tweet_id
 )
 
 SELECT * 
