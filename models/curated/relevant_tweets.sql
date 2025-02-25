@@ -85,6 +85,7 @@ politician_tweet_ids AS (
     SELECT DISTINCT tweet_id
     FROM {{ ref('00_interactions_referrers') }}
     WHERE user_id IN (SELECT user_id FROM {{ ref('01_political_users') }})
+    -- WHERE user_id IN (SELECT user_id FROM {{ ref('01_political_users') }})
 ),
 
 -- 4. Tweet IDs die Politiker erwähnen
@@ -95,6 +96,8 @@ politician_mention_tweet_ids AS (
     INNER JOIN {{ ref('01_political_users') }} AS pu
         ON mentioned_user = pu.user_id
 ),
+
+
 
 
 -- Kombination von 1 und 2
