@@ -25,26 +25,21 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   ba_twitter_analysis:
-    analyses_month:
+    python:
       +materialized: table
-      +schema: analyses_month
-    analyses_week:
+      +schema: curated_python
+    stats:
       +materialized: table
       +schema: analyses_week
     source:
-      +materialized: incremental  
+      +materialized: table  
       +schema: src
     curated:
-      +materialized: incremental  
+      +materialized: table  
       +schema: curated
     staging:
-      +materialized: incremental  
+      +materialized: table  
       +schema: staging
-    external:
-      +materialized: incremental  
-      +schema: external
-    dev:
-      +schema: bachelor_analytics
 
 seeds:
   ba_twitter_analysis:
