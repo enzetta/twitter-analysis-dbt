@@ -12,12 +12,15 @@
 
 WITH all_tables AS (
 
-    SELECT *
-    FROM {{ source("src_twitter", "raw-zenodo") }}
+    SELECT 
+        *
+    FROM 
+        {{ source("src_twitter", "raw-zenodo") }}
 
     UNION ALL
     
-    SELECT *
+    SELECT 
+        *
     FROM {{ source("src_twitter", "raw-zenodo-2022-11") }}
 ),
 

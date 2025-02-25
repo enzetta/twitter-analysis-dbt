@@ -1,9 +1,42 @@
 version: 2
 
 sources:
+  - name: src_python
+    database: grounded-nebula-408412
+    schema: twitter_analysis_python
+    tables:
+      - name: tweet_sentiment_analysis
+        description: >
+          Table containing sentiment and toxicity analysis predictions for tweets, 
+          along with associated probabilities and timestamps.
+        columns:
+          - name: tweet_id
+            description: Unique identifier of the tweet.
+            tests:
+              - not_null
+              - unique
+          - name: user_id
+            description: ID of the user who posted the tweet.
+          - name: recorded_at
+            description: Timestamp when the tweet was recorded.
+          - name: text
+            description: Text content of the tweet.
+          - name: sentiment
+            description: Sentiment classification of the tweet (positive, neutral, negative).
+          - name: positive_probability
+            description: Probability score for the tweet being classified as positive.
+          - name: neutral_probability
+            description: Probability score for the tweet being classified as neutral.
+          - name: negative_probability
+            description: Probability score for the tweet being classified as negative.
+          - name: toxicity_label
+            description: Label indicating whether the tweet is toxic or neutral.
+          - name: toxicity_score
+            description: Score indicating the degree of toxicity in the tweet.
+
   - name: src_twitter
-    database: grounded-nebula-408412  # Correct project ID
-    schema: twitter  # Correct dataset
+    database: grounded-nebula-408412 # Correct project ID
+    schema: twitter # Correct dataset
     description: Raw Twitter data from Zenodo dataset
     tables:
       - name: raw-zenodo-2022-11
@@ -101,7 +134,6 @@ sources:
           - name: wikidata_id
             description: Wikidata entity ID for the politician.
 
-
       - name: hashtag_categorisation
         description: >
           Table containing categorized hashtag usage, including engagement statistics, political relevance, and confidence scores.
@@ -127,35 +159,6 @@ sources:
           - name: confidence
             description: Confidence score (0-1) indicating the reliability of the categorization.
 
-      - name: tweet_sentiment_analysis
-        description: >
-          Table containing sentiment and toxicity analysis predictions for tweets, 
-          along with associated probabilities and timestamps.
-        columns:
-          - name: tweet_id
-            description: Unique identifier of the tweet.
-            tests:
-              - not_null
-              - unique
-          - name: user_id
-            description: ID of the user who posted the tweet.
-          - name: recorded_at
-            description: Timestamp when the tweet was recorded.
-          - name: text
-            description: Text content of the tweet.
-          - name: sentiment
-            description: Sentiment classification of the tweet (positive, neutral, negative).
-          - name: positive_probability
-            description: Probability score for the tweet being classified as positive.
-          - name: neutral_probability
-            description: Probability score for the tweet being classified as neutral.
-          - name: negative_probability
-            description: Probability score for the tweet being classified as negative.
-          - name: toxicity_label
-            description: Label indicating whether the tweet is toxic or neutral.
-          - name: toxicity_score
-            description: Score indicating the degree of toxicity in the tweet.
-
 models:
   - name: users
     description: >
@@ -170,7 +173,7 @@ models:
         description: Lowercase username of the user
       - name: location
         description: User defined location
-      - name: description  
+      - name: description
         description: User profile description
       - name: url
         description: Profile URL
@@ -184,7 +187,7 @@ models:
         description: Number of users being followed
       - name: listed_count
         description: Number of lists containing this user
-      - name: statuses_count 
+      - name: statuses_count
         description: Total number of tweets
       - name: favourites_count
         description: Number of tweets liked
@@ -193,7 +196,7 @@ models:
       - name: recorded_at_date
         description: Date user data was recorded
       - name: created_at
-        description: Timestamp when user was created 
+        description: Timestamp when user was created
       - name: recorded_at
         description: Timestamp when user was recorded
 
@@ -204,7 +207,7 @@ models:
     columns:
       - name: tweet_id
         description: Unique identifier for the tweet
-      - name: user_id  
+      - name: user_id
         description: User who created the tweet
       - name: source_application
         description: Application used to post tweet
@@ -276,14 +279,14 @@ models:
     description: >
       Table containing sentiment and toxicity analysis predictions for tweets, 
       along with associated probabilities and timestamps.
-      
+
     columns:
       - name: tweet_id
         description: Unique identifier of the tweet.
         tests:
           - not_null
           - unique
-      
+
       - name: user_id
         description: ID of the user who posted the tweet.
 
@@ -313,7 +316,7 @@ models:
           Score indicating the sentiment strength in the tweet.
           Values range from **-1 (strongly negative) to +1 (strongly positive)**, 
           with **0 representing neutrality**.
-          
+
       - name: toxicity_score
         description: >
           Adjusted toxicity score of the tweet.
