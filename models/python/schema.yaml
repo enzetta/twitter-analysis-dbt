@@ -1,11 +1,11 @@
 version: 2
 
 sources:
-  - name: src_python
+  - name: python_src
     database: grounded-nebula-408412
-    schema: twitter_analysis_python
+    schema: python_src
     tables:
-      - name: python_network_users_node_metrics
+      - name: python_network_all_node_metrics
       - name: python_network_climate_node_metrics
       - name: python_network_migration_node_metrics
       - name: tweet_sentiment_analysis

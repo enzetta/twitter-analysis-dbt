@@ -8,7 +8,7 @@
 
 WITH source AS (
     SELECT * 
-    FROM {{ source("src_python", "python_network_migration_node_metrics") }}
+    FROM {{ source("python_src", "python_network_migration_node_metrics") }}
 ),
 
 final AS (

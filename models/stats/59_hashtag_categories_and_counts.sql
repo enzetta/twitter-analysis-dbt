@@ -8,4 +8,4 @@ FROM
 GROUP BY 
   category
 ORDER BY 
-  total_usage_count DESC;
+  total_usage_count DESC

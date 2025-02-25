@@ -6,7 +6,7 @@ SELECT
   SUM(sum_toxicity) AS sum_toxicity,
   SUM(sum_toxicity) / SUM(edge_weight) AS avg_toxicity
 FROM
-  `grounded-nebula-408412.twitter_analysis_analyses.network_all`
+  {{ ref("network_all")}}
 WHERE
   avg_toxicity IS NOT NULL
   AND entity_type IN ("hashtag", "person")

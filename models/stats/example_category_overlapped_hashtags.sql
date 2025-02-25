@@ -15,4 +15,4 @@ HAVING
   COUNT(DISTINCT category) > 1
 ORDER BY
   total_usage_count DESC
-LIMIT 100;
+LIMIT 100

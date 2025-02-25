@@ -1,38 +1,6 @@
 version: 2
 
 sources:
-  - name: src_python
-    database: grounded-nebula-408412
-    schema: twitter_analysis_python
-    tables:
-      - name: tweet_sentiment_analysis
-        description: >
-          Table containing sentiment and toxicity analysis predictions for tweets, 
-          along with associated probabilities and timestamps.
-        columns:
-          - name: tweet_id
-            description: Unique identifier of the tweet.
-            tests:
-              - not_null
-              - unique
-          - name: user_id
-            description: ID of the user who posted the tweet.
-          - name: recorded_at
-            description: Timestamp when the tweet was recorded.
-          - name: text
-            description: Text content of the tweet.
-          - name: sentiment
-            description: Sentiment classification of the tweet (positive, neutral, negative).
-          - name: positive_probability
-            description: Probability score for the tweet being classified as positive.
-          - name: neutral_probability
-            description: Probability score for the tweet being classified as neutral.
-          - name: negative_probability
-            description: Probability score for the tweet being classified as negative.
-          - name: toxicity_label
-            description: Label indicating whether the tweet is toxic or neutral.
-          - name: toxicity_score
-            description: Score indicating the degree of toxicity in the tweet.
 
   - name: src_twitter
     database: grounded-nebula-408412 # Correct project ID

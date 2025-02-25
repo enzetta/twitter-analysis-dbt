@@ -8,7 +8,7 @@
 
 WITH source AS (
     SELECT * 
-    FROM {{ source("src_python", "tweet_sentiment_analysis") }}
+    FROM {{ source("python_src", "tweet_sentiment_analysis") }}
 ),
 
 final AS (

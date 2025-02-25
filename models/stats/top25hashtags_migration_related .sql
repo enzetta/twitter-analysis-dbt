@@ -40,4 +40,4 @@ GROUP BY
   hashtag
 ORDER BY 
   total_usage_count DESC
-LIMIT 25;
+LIMIT 25
