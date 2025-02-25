@@ -14,7 +14,6 @@ WITH relevant_tweets AS (
         refers_to_user_id AS refers_to_user_id,
         refers_to AS refers_to_tweet_id,
         mentioned_ids,
-        type,
         hashtags,
         text
     FROM {{ ref('relevant_tweets') }}
@@ -92,7 +91,6 @@ final AS (
         td.mentioned_ids,
         td.hashtags,
         td.text,
-        td.type,
         CASE 
             WHEN td.type = 'retweet' THEN st_original.toxicity_score
             ELSE st.toxicity_score
