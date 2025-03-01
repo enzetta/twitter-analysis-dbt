@@ -1,0 +1,118 @@
+version: 2
+
+models:
+  - name: distribution_tweets_by_user_type
+    description: >
+      Analyzes the distribution of tweets between politicians and general users,
+      showing the overall contribution of each user type to the corpus.
+    columns:
+      - name: user_type
+        description: Type of user (politician or general_user)
+        tests:
+          - not_null
+          - unique
+      - name: tweet_count
+        description: Total number of tweets authored by this user type
+
+  - name: distribution_users_type
+    description: >
+      Counts the number of unique users in each user type category (politicians vs. general users)
+      to understand the proportion of political actors in the Twitter conversation.
+    columns:
+      - name: user_type
+        description: Type of user (politician or general_user)
+        tests:
+          - not_null
+          - unique
+      - name: user_count
+        description: Number of unique users belonging to this user type
+
+  - name: toxicity_by_party
+    description: >
+      Analyzes average toxicity scores by political party and month, showing both sent and received
+      toxicity metrics to compare discourse behaviors across different political groups over time.
+    columns:
+      - name: month_start
+        description: First day of the month for which metrics are calculated
+      - name: party
+        description: Political party affiliation
+      - name: avg_tox_sent
+        description: Average toxicity of interactions sent by members of this party
+      - name: avg_tox_received
+        description: Average toxicity of interactions received by members of this party
+      - name: avg_tox
+        description: Overall average toxicity for all interactions involving this party
+
+  - name: toxicity_distribution_tweets
+    description: >
+      Distribution of tweets across toxicity score buckets, showing the frequency of tweets
+      at different toxicity levels. Buckets are created at 0.05 intervals.
+    columns:
+      - name: toxicity_bucket
+        description: Toxicity score range bucket (formatted as start of range with two decimal places)
+        tests:
+          - not_null
+          - unique
+      - name: tweet_count
+        description: Number of tweets falling within this toxicity bucket
+
+  - name: toxicity_distribution_users_by_party
+    description: >
+      Analysis of user toxicity distributions by political party, showing how many users
+      from each party fall into different toxicity score buckets.
+    columns:
+      - name: party
+        description: Political party affiliation
+      - name: toxicity_bucket
+        description: Toxicity score range bucket (formatted as start of range with two decimal places)
+      - name: user_count
+        description: Number of users from this party with average toxicity in this bucket
+        tests:
+          - not_null
+
+  - name: toxicity_distribution_users
+    description: >
+      Distribution of users across toxicity score buckets based on their average tweet toxicity,
+      showing how many users typically produce content at each toxicity level.
+    columns:
+      - name: toxicity_bucket
+        description: Toxicity score range bucket (formatted as start of range with two decimal places)
+        tests:
+          - not_null
+          - unique
+      - name: user_count
+        description: Number of users with average toxicity in this bucket
+
+  - name: toxicity_statistics
+    description: >
+      Comprehensive statistical analysis of toxicity scores, including basic descriptive statistics
+      and percentile distributions to characterize the overall toxicity landscape.
+    columns:
+      - name: metric
+        description: Type of metric (Basic Stats or Percentiles)
+      - name: total_tweets
+        description: Total number of tweets in the dataset
+      - name: tweets_with_toxicity
+        description: Number of tweets with valid toxicity scores
+      - name: mean_toxicity
+        description: Average toxicity score across all tweets
+      - name: stddev_toxicity
+        description: Standard deviation of toxicity scores
+      - name: min_toxicity
+        description: Minimum toxicity score
+      - name: max_toxicity
+        description: Maximum toxicity score
+      - name: p10
+        description: 10th percentile toxicity score
+      - name: p25
+        description: 25th percentile toxicity score
+      - name: median
+        description: Median (50th percentile) toxicity score
+      - name: p75
+        description: 75th percentile toxicity score
+      - name: p90
+        description: 90th percentile toxicity score
+      - name: p95
+        description: 95th percentile toxicity score
+      - name: p99
+        description: 99th percentile toxicity score

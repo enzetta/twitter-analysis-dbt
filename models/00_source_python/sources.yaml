@@ -5,7 +5,7 @@ sources:
     database: grounded-nebula-408412
     schema: base_twitter_python
     tables:
-      - name: network_all_node_metrics
+      - name: network_node_metrics_all
         description: >
           Table containing network analysis metrics for all nodes (users) in the Twitter network,
           including centrality measures, interaction counts, and toxicity metrics.
@@ -47,7 +47,7 @@ sources:
           - name: toxicity_received_avg
             description: Average toxicity score of interactions received by this node.
 
-      - name: network_climate_node_metrics
+      - name: network_node_metrics_climate
         description: >
           Network metrics for nodes (users) in the climate-related discussion subnetwork,
           filtered to include only interactions related to climate topics.
@@ -89,7 +89,7 @@ sources:
           - name: toxicity_received_avg
             description: Average toxicity score of climate-related interactions received by this node.
 
-      - name: network_migration_node_metrics
+      - name: network_node_metrics_migration
         description: >
           Network metrics for nodes (users) in the migration-related discussion subnetwork,
           filtered to include only interactions related to migration and refugee topics.
@@ -132,7 +132,7 @@ sources:
             description: Average toxicity score of migration-related interactions received by this node.
 
       # Add entries for the network network metrics tables
-      - name: network_climate_network_metrics
+      - name: network_network_metrics_climate
         description: >
           Network-level metrics for the climate discussion network, including density, modularity,
           and other global network properties.
@@ -172,7 +172,7 @@ sources:
           - name: average_clustering
             description: Average clustering coefficient across all nodes.
 
-      - name: network_migration_network_metrics
+      - name: network_network_metrics_migration
         description: >
           Network-level metrics for the migration discussion network, including density, modularity,
           and other global network properties.
@@ -212,7 +212,7 @@ sources:
           - name: average_clustering
             description: Average clustering coefficient across all nodes.
 
-      - name: network_all_network_metrics
+      - name: network_network_metrics_all
         description: >
           Network-level metrics for the complete Twitter network, including density, modularity,
           and other global network properties across all interactions.

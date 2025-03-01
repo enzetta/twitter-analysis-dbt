@@ -3,7 +3,7 @@
 {{ 
   config(
     materialized = "table",
-    unique_key = "toxicity_bucket_party"
+    unique_key = ["party", "toxicity_bucket"]
   ) 
 }}
 

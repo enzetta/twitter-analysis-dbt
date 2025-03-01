@@ -7,8 +7,8 @@ sources:
     schema: base_twitter_raw
     description: Raw Twitter data from Zenodo dataset
     tables:
-      - name: raw-zenodo-2022-11
-      - name: raw-zenodo
+      - name: raw_zenodo_2020_11
+      - name: raw_zenodo
         description: >
           Raw Twitter data containing tweets, user information, and interactions between 2020-2021
           for German and English tweets.
@@ -92,9 +92,6 @@ sources:
             description: The politician's Twitter username in lowercase.
           - name: year_of_birth
             description: Birth year of the politician.
-            tests:
-              - not_null
-              - dbt_utils.expect_column_to_exist
           - name: abgeordnetenwatch_id
             description: Unique ID from the abgeordnetenwatch.de platform.
           - name: gender

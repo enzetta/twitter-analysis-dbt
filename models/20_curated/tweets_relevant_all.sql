@@ -66,7 +66,7 @@ WITH categories_of_interest AS (
 -- 1. Tweet IDs mit kategorisierten Hashtags
 categorized_hashtags AS (
     SELECT DISTINCT hc.hashtag
-    FROM {{ ref('hashtag_categories_exploded') }} AS hc
+    FROM {{ ref('hashtags_categories_exploded') }} AS hc
     INNER JOIN categories_of_interest AS coi
         ON hc.category = coi.category
 ),
@@ -74,7 +74,7 @@ categorized_hashtags AS (
 -- 2. Tweets die kategorisierte Hashtags enthalten
 hashtag_tweet_ids AS (
     SELECT DISTINCT ir.tweet_id
-    FROM {{ ref('00_interactions_referrers') }} AS ir
+    FROM {{ ref('00_interactions_with_referrers') }} AS ir
     CROSS JOIN UNNEST(ir.hashtags) AS tweet_hashtag
     INNER JOIN categorized_hashtags AS ch
         ON LOWER(tweet_hashtag) = LOWER(ch.hashtag)
@@ -83,7 +83,7 @@ hashtag_tweet_ids AS (
 -- 3. Tweet IDs von Politikern
 politician_tweet_ids AS (
     SELECT DISTINCT tweet_id
-    FROM {{ ref('00_interactions_referrers') }}
+    FROM {{ ref('00_interactions_with_referrers') }}
     WHERE user_id IN (SELECT user_id FROM {{ ref('01_political_users') }})
     -- WHERE user_id IN (SELECT user_id FROM {{ ref('01_political_users') }})
 ),
@@ -91,7 +91,7 @@ politician_tweet_ids AS (
 -- 4. Tweet IDs die Politiker erwähnen
 politician_mention_tweet_ids AS (
     SELECT DISTINCT ir.tweet_id
-    FROM {{ ref('00_interactions_referrers') }} AS ir
+    FROM {{ ref('00_interactions_with_referrers') }} AS ir
     CROSS JOIN UNNEST(ir.mentioned_ids) AS mentioned_user
     INNER JOIN {{ ref('01_political_users') }} AS pu
         ON mentioned_user = pu.user_id
@@ -112,7 +112,7 @@ base_tweet_ids AS (
 -- 3. IDs der Tweets die sich auf 1 oder 2 beziehen
 referenced_tweet_ids AS (
     SELECT DISTINCT r.refers_to AS tweet_id
-    FROM {{ ref('00_interactions_referrers') }} AS r
+    FROM {{ ref('00_interactions_with_referrers') }} AS r
     INNER JOIN base_tweet_ids AS b
         ON r.tweet_id = b.tweet_id
 ),
@@ -129,7 +129,7 @@ joined AS (
     SELECT 
         ir.*
     FROM 
-        {{ ref('00_interactions_referrers') }} AS ir
+        {{ ref('00_interactions_with_referrers') }} AS ir
     INNER JOIN all_tweet_ids AS a
         ON ir.tweet_id = a.tweet_id
 

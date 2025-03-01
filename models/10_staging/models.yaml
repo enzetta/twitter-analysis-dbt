@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: 00_interactions_referrers
+  - name: 00_interactions_with_referrers
     description: >
       Enhanced version of the interactions table that includes information about the
       users being referenced in each interaction. Adds refers_to_user_id by joining
@@ -76,7 +76,7 @@ models:
       - name: wikidata_id
         description: Wikidata ID from EPI data
 
-  - name: 03_political_hashtags_count
+  - name: 02_political_hashtags_count
     description: >
       Aggregated statistics about hashtag usage in political contexts, focusing on
       hashtags used by at least one politician. Includes usage metrics and temporal data.

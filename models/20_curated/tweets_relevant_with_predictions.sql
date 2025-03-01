@@ -60,7 +60,7 @@ hashtag_categories AS (
     SELECT
         LOWER(hashtag) AS hashtag,
         ARRAY_AGG(DISTINCT category) AS categories
-    FROM {{ ref('hashtag_categories_exploded') }}
+    FROM {{ ref('hashtags_categories_exploded') }}
     GROUP BY hashtag
 ),
 

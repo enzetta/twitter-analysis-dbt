@@ -4,7 +4,7 @@ SELECT
   SUM(unique_users) AS total_unique_users,
   SUM(politician_users) AS total_politician_users
 FROM 
-  {{ ref('hashtag_categories_exploded') }}
+  {{ ref('hashtags_categories_exploded') }}
 GROUP BY 
   category
 ORDER BY 

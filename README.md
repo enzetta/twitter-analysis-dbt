@@ -44,14 +44,14 @@ This dbt project is structured as follows:
 - `ext_epi_netz_de.sql`: List of verified German politicians.
 
 ### **2. Data Staging (`models/staging/`)**
-- `00_interactions_referrers.sql`: Extracts tweet metadata, hashtags, and references.
+- `00_interactions_with_referrers.sql`: Extracts tweet metadata, hashtags, and references.
 - `01_political_users.sql`: Identifies verified politicians from the dataset.
 - `02_politically_engaged_users.sql`: Expands the set to include users engaged in political discussions.
-- `03_political_hashtags_count.sql`: Counts hashtag occurrences among politicians.
+- `02_political_hashtags_count.sql`: Counts hashtag occurrences among politicians.
 
 ### **3. Curated Analysis (`models/curated/`)**
 - `political_hashtags_by_user.sql`: Tracks which users are using which political hashtags.
-- `hashtag_categories_exploded.sql`: Breaks down hashtags into individual categories. Each hashtag and category combination is here in a seperate row.
+- `hashtags_categories_exploded.sql`: Breaks down hashtags into individual categories. Each hashtag and category combination is here in a seperate row.
 - `hashtag_categories_aggregated.sql`: Breaks down hashtags into individual categories. Categories are grouped together in a list so each hashtag only occurs once.
 - `relevant_tweets.sql`: Extracts tweets from users engaged in political discourse.
 

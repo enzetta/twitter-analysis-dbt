@@ -15,13 +15,13 @@ WITH all_tables AS (
     SELECT 
         *
     FROM 
-        {{ source("base_twitter_raw", "raw-zenodo") }}
+        {{ source("base_twitter_raw", "raw_zenodo") }}
 
     UNION ALL
     
     SELECT 
         *
-    FROM {{ source("base_twitter_raw", "raw-zenodo-2022-11") }}
+    FROM {{ source("base_twitter_raw", "raw_zenodo_2020_11") }}
 ),
 
 source AS (

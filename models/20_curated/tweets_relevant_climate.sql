@@ -7,7 +7,7 @@
 
 WITH categories_of_interest AS (
     SELECT DISTINCT category 
-    FROM {{ ref('hashtag_categories_exploded') }}
+    FROM {{ ref('hashtags_categories_exploded') }}
     WHERE category IN (
         'Talkshows/News TV/Current Affairs Programs',
         'Political Parties/Political Systems',

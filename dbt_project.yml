@@ -28,10 +28,10 @@ models:
     # Raw data sources (00_)
     00_source:
       +materialized: table  
-      +schema: 00_raw
+      +schema: 00_source
     00_source_python:
       +materialized: table
-      +schema: 00_raw_python
+      +schema: 00_source_python
     
     # Initial transformations (10_)
     10_staging:

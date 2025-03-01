@@ -6,7 +6,7 @@ WITH HashtagUsage AS (
         COUNT(DISTINCT rt.user_id) AS unique_users
     FROM `grounded-nebula-408412.twitter_analysis_curated.relevant_tweets` rt
     CROSS JOIN UNNEST(rt.hashtags) AS ht
-    LEFT JOIN `grounded-nebula-408412.twitter_analysis_curated.hashtag_categories_exploded` hc
+    LEFT JOIN `grounded-nebula-408412.twitter_analysis_curated.hashtags_categories_exploded` hc
         ON hc.hashtag = ht
     GROUP BY hc.category, ht
 ),
@@ -24,7 +24,7 @@ HashtagPoliticalUsage AS (
         COUNT(DISTINCT rt.user_id) AS politician_users
     FROM `grounded-nebula-408412.twitter_analysis_curated.relevant_tweets` rt
     CROSS JOIN UNNEST(rt.hashtags) AS ht
-    LEFT JOIN `grounded-nebula-408412.twitter_analysis_curated.hashtag_categories_exploded` hc
+    LEFT JOIN `grounded-nebula-408412.twitter_analysis_curated.hashtags_categories_exploded` hc
         ON hc.hashtag = ht
     INNER JOIN PoliticalUsers pu
         ON rt.user_id = pu.user_id

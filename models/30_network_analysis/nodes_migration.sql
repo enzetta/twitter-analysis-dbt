@@ -8,7 +8,7 @@
 
 WITH nodes AS (
     SELECT * 
-    FROM {{ ref("network_migration_node_metrics") }}
+    FROM {{ ref("node_metrics_migration") }}
 ),
 
 politicians AS (

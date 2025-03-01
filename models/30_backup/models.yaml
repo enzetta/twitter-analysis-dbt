@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: 59_hashtag_categories_and_counts
+    description: >
+      Aggregated statistics about hashtag categories, including total usage counts,
+      unique users, and politician users for each category.
+    columns:
+      - name: category
+        description: The hashtag category name
+      - name: total_usage_count
+        description: Sum of usage count for all hashtags in this category
+      - name: total_unique_users
+        description: Total number of unique users across all hashtags in this category
+      - name: total_politician_users
+        description: Total number of politician users across all hashtags in this category
+
+  - name: example_category_overlapped_hashtags
+    description: >
+      Analysis of hashtags that appear in multiple categories, specifically focusing on 
+      migration and climate change categories to identify overlapping discourse.
+    columns:
+      - name: hashtag
+        description: The hashtag being analyzed
+      - name: categories
+        description: Comma-separated list of categories this hashtag belongs to
+      - name: category_count
+        description: Number of distinct categories the hashtag belongs to
+      - name: total_usage_count
+        description: Total usage count of the hashtag across all categories
+      - name: total_unique_users
+        description: Total number of unique users who used the hashtag
+      - name: total_politician_users
+        description: Total number of politicians who used the hashtag
+  
+  - name: top25hashtags_climate_related
+    description: >
+      Top 25 climate-related hashtags based on politician usage, filtered by categories
+      relevant to climate change and environmental topics.
+    columns:
+      - name: hashtag
+        description: The hashtag being analyzed
+      - name: total_usage_count
+        description: Total usage count of the hashtag across climate-related categories
+      - name: total_unique_users
+        description: Total number of unique users who used the hashtag
+      - name: total_politician_users
+        description: Total number of politicians who used the hashtag
+  
+  - name: top25hashtags_migration_related
+    description: >
+      Top 25 migration-related hashtags based on politician usage, filtered by categories
+      relevant to migration, refugees, and related social and political topics.
+    columns:
+      - name: hashtag
+        description: The hashtag being analyzed
+      - name: total_usage_count
+        description: Total usage count of the hashtag across migration-related categories
+      - name: total_unique_users
+        description: Total number of unique users who used the hashtag
+      - name: total_politician_users
+        description: Total number of politicians who used the hashtag

@@ -1,0 +1,134 @@
+version: 2
+
+models:
+  - name: nodes_all
+    description: >
+      Enhanced version of node_metrics_all that includes political party affiliation
+      for each node (Twitter user) in the complete network analysis.
+    columns:
+      - name: row_id
+        description: Unique identifier for each row in the table
+      - name: month_start
+        description: First day of the month for which metrics are calculated
+      - name: node_id
+        description: Twitter handle serving as the node identifier in the network
+        tests:
+          - not_null
+      - name: pagerank
+        description: PageRank score indicating the node's importance in the network
+      - name: degree_in
+        description: Number of incoming connections (users who interacted with this node)
+      - name: degree_out
+        description: Number of outgoing connections (users this node interacted with)
+      - name: betweenness
+        description: Betweenness centrality measuring how often the node lies on shortest paths
+      - name: clustering
+        description: Clustering coefficient measuring how tightly connected the node's neighbors are
+      - name: triangles
+        description: Count of triangles (closed triplets) that include this node
+      - name: core_number
+        description: K-core number indicating the node's position in network shells
+      - name: interactions_sent
+        description: Total number of interactions initiated by this node
+      - name: interactions_received
+        description: Total number of interactions received by this node
+      - name: interactions_total
+        description: Sum of all interactions this node was involved in
+      - name: toxicity_sent
+        description: Total toxicity score of interactions sent by this node
+      - name: toxicity_received
+        description: Total toxicity score of interactions received by this node
+      - name: toxicity_sent_avg
+        description: Average toxicity score of interactions sent by this node
+      - name: toxicity_received_avg
+        description: Average toxicity score of interactions received by this node
+      - name: party
+        description: Political party affiliation of the node, if the user is a politician
+
+  - name: nodes_climate
+    description: >
+      Enhanced version of node_metrics_climate that includes political party affiliation
+      for each node (Twitter user) in the climate discussion subnetwork.
+    columns:
+      - name: row_id
+        description: Unique identifier for each row in the table
+      - name: month_start
+        description: First day of the month for which metrics are calculated
+      - name: node_id
+        description: Twitter handle serving as the node identifier in the network
+        tests:
+          - not_null
+      - name: pagerank
+        description: PageRank score indicating the node's importance in the climate discussion network
+      - name: degree_in
+        description: Number of incoming connections in climate-related discussions
+      - name: degree_out
+        description: Number of outgoing connections in climate-related discussions
+      - name: betweenness
+        description: Betweenness centrality in the climate discussion subnetwork
+      - name: clustering
+        description: Clustering coefficient within the climate discussion subnetwork
+      - name: triangles
+        description: Count of triangles in the climate discussion subnetwork that include this node
+      - name: core_number
+        description: K-core number in the climate discussion subnetwork
+      - name: interactions_sent
+        description: Number of climate-related interactions sent by this node
+      - name: interactions_received
+        description: Number of climate-related interactions received by this node
+      - name: interactions_total
+        description: Total climate-related interactions this node was involved in
+      - name: toxicity_sent
+        description: Total toxicity score of climate-related interactions sent by this node
+      - name: toxicity_received
+        description: Total toxicity score of climate-related interactions received by this node
+      - name: toxicity_sent_avg
+        description: Average toxicity score of climate-related interactions sent by this node
+      - name: toxicity_received_avg
+        description: Average toxicity score of climate-related interactions received by this node
+      - name: party
+        description: Political party affiliation of the node, if the user is a politician
+
+  - name: nodes_migration
+    description: >
+      Enhanced version of node_metrics_migration that includes political party affiliation
+      for each node (Twitter user) in the migration discussion subnetwork.
+    columns:
+      - name: row_id
+        description: Unique identifier for each row in the table
+      - name: month_start
+        description: First day of the month for which metrics are calculated
+      - name: node_id
+        description: Twitter handle serving as the node identifier in the network
+        tests:
+          - not_null
+      - name: pagerank
+        description: PageRank score indicating the node's importance in the migration discussion network
+      - name: degree_in
+        description: Number of incoming connections in migration-related discussions
+      - name: degree_out
+        description: Number of outgoing connections in migration-related discussions
+      - name: betweenness
+        description: Betweenness centrality in the migration discussion subnetwork
+      - name: clustering
+        description: Clustering coefficient within the migration discussion subnetwork
+      - name: triangles
+        description: Count of triangles in the migration discussion subnetwork that include this node
+      - name: core_number
+        description: K-core number in the migration discussion subnetwork
+      - name: interactions_sent
+        description: Number of migration-related interactions sent by this node
+      - name: interactions_received
+        description: Number of migration-related interactions received by this node
+      - name: interactions_total
+        description: Total migration-related interactions this node was involved in
+      - name: toxicity_sent
+        description: Total toxicity score of migration-related interactions sent by this node
+      - name: toxicity_received
+        description: Total toxicity score of migration-related interactions received by this node
+      - name: toxicity_sent_avg
+        description: Average toxicity score of migration-related interactions sent by this node
+      - name: toxicity_received_avg
+        description: Average toxicity score of migration-related interactions received by this node
+      - name: party
+        description: Political party affiliation of the node, if the user is a politician
