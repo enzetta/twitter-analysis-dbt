@@ -1,6 +1,6 @@
 {{ 
   config(
-    materialized = "incremental",
+    materialized = "table",
     unique_key = "tweet_id",
     partition_by = {
       "field": "recorded_at",
@@ -12,11 +12,9 @@
 
 -- Quell-CTE, die die Basisdaten lädt
 WITH source AS (
-    SELECT *
+    SELECT * EXCEPT(row_num)
     FROM {{ ref("interactions") }}
-    {% if is_incremental() %}
-      WHERE FALSE
-    {% endif %}
+
 ),
 
 -- Finale CTE, die die Tweet-Referenzen auflöst

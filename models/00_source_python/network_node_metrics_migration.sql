@@ -1,3 +1,4 @@
+-- source_python/network_node_metrics_migration.sql
 {{ 
   config(
     materialized = "table",
@@ -8,7 +9,7 @@
 
 WITH source AS (
     SELECT * 
-    FROM {{ source("python_src", "python_network_climate_node_metrics") }}
+    FROM {{ source("python_src", "network_migration_node_metrics") }}
 ),
 
 final AS (

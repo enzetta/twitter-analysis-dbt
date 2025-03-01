@@ -122,10 +122,37 @@ all_tweet_ids AS (
     SELECT tweet_id FROM base_tweet_ids
     UNION DISTINCT
     SELECT tweet_id FROM referenced_tweet_ids
+), 
+
+joined AS (
+
+    SELECT 
+        ir.*
+    FROM 
+        {{ ref('00_interactions_referrers') }} AS ir
+    INNER JOIN all_tweet_ids AS a
+        ON ir.tweet_id = a.tweet_id
+
+), 
+
+including_rows AS ( 
+
+    SELECT 
+        *,
+        ROW_NUMBER() OVER (PARTITION BY tweet_id ORDER BY created_at DESC, text ASC) AS row_num
+    FROM joined
+
+
+), truncated AS (
+
+    SELECT 
+        * EXCEPT(row_num)
+    FROM 
+        including_rows
+    WHERE 
+        row_num = 1
+
 )
 
--- Hole alle Daten für die relevanten IDs
-SELECT ir.*
-FROM {{ ref('00_interactions_referrers') }} AS ir
-INNER JOIN all_tweet_ids AS a
-    ON ir.tweet_id = a.tweet_id
+SELECT * 
+FROM truncated

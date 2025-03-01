@@ -25,21 +25,34 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   ba_twitter_analysis:
-    python:
+    # Raw data sources (00_)
+    00_source:
+      +materialized: table  
+      +schema: 00_raw
+    00_source_python:
       +materialized: table
-      +schema: curated_python
-    stats:
+      +schema: 00_raw_python
+    
+    # Initial transformations (10_)
+    10_staging:
+      +materialized: table  
+      +schema: 10_staging
+    
+    # Business logic / refined models (20_)
+    20_curated:
+      +materialized: table  
+      +schema: 20_curated
+    
+    # Specialized analytics (30_)
+    30_network_analysis:
+      +materialized: table  
+      +schema: 30_network_analysis
+    30_stats:
       +materialized: table
-      +schema: analyses_week
-    source:
-      +materialized: table  
-      +schema: src
-    curated:
-      +materialized: table  
-      +schema: curated
-    staging:
-      +materialized: table  
-      +schema: staging
+      +schema: 30_stats
+    30_backup:
+      +materialized: table
+      +schema: 30_stats_buckup
 
 seeds:
   ba_twitter_analysis:

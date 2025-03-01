@@ -1,131 +1,5 @@
 version: 2
 
-sources:
-
-  - name: src_twitter
-    database: grounded-nebula-408412 # Correct project ID
-    schema: twitter # Correct dataset
-    description: Raw Twitter data from Zenodo dataset
-    tables:
-      - name: raw-zenodo-2022-11
-      - name: raw-zenodo
-        description: >
-          Raw Twitter data containing tweets, user information, and interactions between 2020-2021
-          for German and English tweets.
-        columns:
-          - name: twista
-            description: Version of the Twista tool used for data collection.
-          - name: type
-            description: Type of entry (retweet, reply, quote, user, status).
-          - name: id
-            description: Unique identifier for the tweet or user.
-          - name: user
-            description: User ID associated with the entry.
-          - name: created_at
-            description: Timestamp of when the tweet was created.
-          - name: recorded_at
-            description: Timestamp of when the tweet was recorded by Twista (scraper model).
-          - name: source
-            description: Source application or tool used to post the tweet.
-          - name: retweets
-            description: Number of retweets.
-          - name: favourites
-            description: Number of favourites (likes).
-          - name: lang
-            description: Language of the tweet.
-          - name: hashtags
-            description: List of hashtags used in the tweet.
-          - name: urls
-            description: List of URLs used in the tweet.
-          - name: mentions
-            description: Usernames mentioned in the tweet.
-          - name: mentioned_ids
-            description: User IDs of the mentioned users.
-          - name: text
-            description: Text content of the tweet.
-          - name: refers_to
-            description: ID of the tweet to which it refers (in replies, retweets, or quotes).
-          - name: name
-            description: Display name of the user.
-          - name: screen_name
-            description: Username of the user.
-          - name: location
-            description: User-defined location for their account.
-          - name: description
-            description: The user-defined description of the profile.
-          - name: url
-            description: URL provided by the user in their profile.
-          - name: verified
-            description: Boolean indicating whether the user is verified.
-          - name: followers
-            description: Number of followers.
-          - name: friends
-            description: Number of accounts the user is following.
-          - name: listed
-            description: Number of public lists that this user is a member of.
-          - name: statuses
-            description: Number of tweets (including retweets) issued by the user.
-
-      - name: ext_epi_netz_de
-        description: >
-          External data mapping German politicians to their Twitter accounts with additional metadata
-          from the EPI network dataset.
-        columns:
-          - name: user_id
-            description: Unique Twitter user ID of the politician.
-            tests:
-              - not_null
-              - unique
-          - name: official_name
-            description: Official full name of the politician.
-          - name: party
-            description: Political party affiliation of the politician.
-          - name: region
-            description: Geographic region represented by the politician.
-          - name: institution
-            description: Political institution (e.g., Bundestag, Landtag).
-          - name: office
-            description: Political office held by the politician.
-          - name: twitter_name
-            description: Official Twitter display name.
-          - name: twitter_handle
-            description: The politician's Twitter username in lowercase.
-          - name: year_of_birth
-            description: Birth year of the politician.
-            tests:
-              - not_null
-              - dbt_utils.expect_column_to_exist
-          - name: abgeordnetenwatch_id
-            description: Unique ID from the abgeordnetenwatch.de platform.
-          - name: gender
-            description: Gender of the politician.
-          - name: wikidata_id
-            description: Wikidata entity ID for the politician.
-
-      - name: hashtag_categorisation
-        description: >
-          Table containing categorized hashtag usage, including engagement statistics, political relevance, and confidence scores.
-        columns:
-          - name: hashtag
-            description: The hashtag being analyzed.
-          - name: usage_count
-            description: The total number of times the hashtag was used.
-          - name: unique_users
-            description: The number of unique users who used the hashtag.
-          - name: politician_users
-            description: The number of politicians who used the hashtag.
-          - name: first_used_at
-            description: The timestamp when the hashtag was first used.
-          - name: last_used_at
-            description: The timestamp when the hashtag was last used.
-          - name: pct_political_users
-            description: The percentage of users who are politicians.
-          - name: days_active
-            description: The number of days between the first and last use of the hashtag.
-          - name: categories
-            description: The assigned categories for the hashtag, separated by semicolons (`;`).
-          - name: confidence
-            description: Confidence score (0-1) indicating the reliability of the categorization.
 
 models:
   - name: users
@@ -290,3 +164,32 @@ models:
           Adjusted toxicity score of the tweet.
           If the label was `toxic`, the raw score is used.
           If `neutral`, the score is **1 - toxicity_score** to reflect non-toxicity.
+
+  - name: toxicity_predictions
+    description: >
+      Refined model containing toxicity and sentiment predictions for tweets with adjusted scores
+      and derived sentiment metrics. Joins tweet sentiment analysis with interaction data to provide
+      contextual information for toxicity analysis.
+    columns:
+      - name: tweet_id
+        description: Unique identifier of the tweet.
+        tests:
+          - not_null
+          - unique
+      - name: user_id
+        description: ID of the user who posted the tweet.
+      - name: created_at
+        description: Timestamp when the tweet was created (from interactions table).
+      - name: toxicity_score
+        description: >
+          Adjusted toxicity score that reflects the degree of toxicity in the tweet.
+          For toxic tweets, it uses the original score; for neutral tweets, it uses 1 minus the score
+          to reflect the degree of non-toxicity.
+      - name: sentiment_score
+        description: >
+          Derived metric calculating the difference between positive and negative probabilities,
+          producing a score between -1 (most negative) and 1 (most positive).
+      - name: positive_probability
+        description: Probability that the tweet expresses positive sentiment.
+      - name: negative_probability
+        description: Probability that the tweet expresses negative sentiment.

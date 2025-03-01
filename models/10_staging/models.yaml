@@ -1,0 +1,99 @@
+version: 2
+
+models:
+  - name: 00_interactions_referrers
+    description: >
+      Enhanced version of the interactions table that includes information about the
+      users being referenced in each interaction. Adds refers_to_user_id by joining
+      back to the interactions table.
+    columns:
+      - name: tweet_id
+        description: Unique identifier for the tweet
+      - name: user_id  
+        description: User who created the tweet
+      - name: source_application
+        description: Application used to post tweet
+      - name: retweet_count
+        description: Number of retweets
+      - name: favourite_count
+        description: Number of likes/favourites
+      - name: lang
+        description: Tweet language
+      - name: type
+        description: Type of interaction (tweet, retweet, etc)
+      - name: hashtags
+        description: Array of hashtags used
+      - name: urls
+        description: Array of URLs included
+      - name: mentioned_ids
+        description: Array of mentioned user IDs
+      - name: raw_text
+        description: Original unprocessed tweet text
+      - name: text
+        description: Cleaned tweet text with URLs removed
+      - name: refers_to
+        description: ID of referenced tweet if reply/quote
+      - name: created_at_date
+        description: Date tweet was created
+      - name: recorded_at_date
+        description: Date tweet was recorded
+      - name: created_at
+        description: Timestamp of tweet creation
+      - name: recorded_at
+        description: Timestamp when tweet was recorded
+      - name: refers_to_user_id
+        description: User ID of the author of the referenced tweet
+
+  - name: 01_political_users
+    description: >
+      Matches Twitter users with known German politicians based on either Twitter handle or user ID.
+      Combines user information with political metadata from the EPI network.
+    columns:
+      - name: user_id
+        description: Twitter user ID
+      - name: screen_name
+        description: Twitter username (lowercase)
+      - name: name  
+        description: Display name
+      - name: description
+        description: Profile description
+      - name: location
+        description: User location
+      - name: url
+        description: Profile URL
+      - name: created_at
+        description: Account creation timestamp
+      - name: lang  
+        description: Account language
+      - name: recorded_at
+        description: When user data was recorded
+      - name: party
+        description: Political party affiliation from EPI data
+      - name: twitter_name
+        description: Official Twitter name from EPI data
+      - name: twitter_handle
+        description: Official Twitter handle from EPI data (lowercase)
+      - name: wikidata_id
+        description: Wikidata ID from EPI data
+
+  - name: 03_political_hashtags_count
+    description: >
+      Aggregated statistics about hashtag usage in political contexts, focusing on
+      hashtags used by at least one politician. Includes usage metrics and temporal data.
+    columns:
+      - name: hashtag
+        description: The hashtag being analyzed (converted to lowercase)
+      - name: usage_count
+        description: Total number of times the hashtag was used
+      - name: unique_users
+        description: Number of unique users who used this hashtag
+      - name: politician_users
+        description: Number of politicians who used this hashtag
+      - name: first_used_at
+        description: First recorded usage timestamp
+      - name: last_used_at
+        description: Most recent usage timestamp
+      - name: _01_political_users
+        description: Percentage of users who are politicians (rounded to 2 decimals)
+      - name: days_active
+        description: Number of days between first and last usage

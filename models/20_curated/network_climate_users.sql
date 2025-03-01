@@ -18,7 +18,7 @@ WITH user_replies AS (
         AVG(rt.toxicity_score) AS avg_toxicity,
         SUM(rt.sentiment_score) AS sum_sentiment,
         SUM(rt.toxicity_score) AS sum_toxicity
-    FROM {{ ref('relevant_tweets_with_predictions') }} rt
+    FROM {{ ref('tweets_relevant_climate') }} rt
     LEFT JOIN {{ ref('users') }} u2 
         ON rt.refers_to_user_id = u2.user_id
     WHERE rt.refers_to_user_id IS NOT NULL
@@ -40,7 +40,7 @@ user_mentions AS (
         AVG(rt.toxicity_score) AS avg_toxicity,
         SUM(rt.sentiment_score) AS sum_sentiment,
         SUM(rt.toxicity_score) AS sum_toxicity
-    FROM {{ ref('relevant_tweets_with_predictions') }} rt
+    FROM {{ ref('tweets_relevant_climate') }} rt
     CROSS JOIN UNNEST(rt.mentioned_ids) AS mentioned_id
     LEFT JOIN {{ ref('users') }} u2 
         ON mentioned_id = u2.user_id
@@ -62,7 +62,7 @@ hashtag_user_connections AS (
         AVG(rt.toxicity_score) AS avg_toxicity,
         SUM(rt.sentiment_score) AS sum_sentiment,
         SUM(rt.toxicity_score) AS sum_toxicity
-    FROM {{ ref('relevant_tweets_with_predictions') }} rt
+    FROM {{ ref('tweets_relevant_climate') }} rt
     CROSS JOIN UNNEST(rt.hashtags) AS hashtag
     WHERE rt.screen_name IS NOT NULL 
         AND hashtag IS NOT NULL
@@ -82,7 +82,7 @@ hashtag_cooccurrence AS (
         AVG(rt.toxicity_score) AS avg_toxicity,
         SUM(rt.sentiment_score) AS sum_sentiment,
         SUM(rt.toxicity_score) AS sum_toxicity
-    FROM {{ ref('relevant_tweets_with_predictions') }} rt
+    FROM {{ ref('tweets_relevant_climate') }} rt
     CROSS JOIN UNNEST(rt.hashtags) AS h1
     CROSS JOIN UNNEST(rt.hashtags) AS h2
     WHERE h1 < h2
@@ -99,7 +99,7 @@ combined_edges AS (
     SELECT * FROM hashtag_cooccurrence
 ),
 
-final AS (
+pre_final AS (
     SELECT 
         source,
         target,
@@ -112,6 +112,25 @@ final AS (
     FROM combined_edges
     WHERE source != target
     GROUP BY 1, 2, 3, 4, 5
+), final AS (
+    SELECT
+        source AS source,
+        target AS target,
+        month_start AS month_start,
+        SUM(edge_weight) AS weight,
+        SUM(sum_toxicity) AS sum_toxicity,
+        SUM(sum_toxicity) / SUM(edge_weight) AS avg_toxicity
+    FROM pre_final
+    WHERE
+        avg_toxicity IS NOT NULL
+        AND entity_type IN ("person")
+    GROUP BY
+        1,
+        2,
+        3
+    ORDER BY
+        month_start ASC,
+        weight ASC
 )
 
 SELECT * 

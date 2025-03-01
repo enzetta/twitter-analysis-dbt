@@ -1,6 +1,6 @@
 {{ 
   config(
-    materialized = "incremental",
+    materialized = "table",
     unique_key = "user_id",
     partition_by = {
       "field": "recorded_at",
@@ -30,9 +30,7 @@ source AS (
     WHERE
         type = 'user'
         AND created_at <= '2021-12-31'
-        {% if is_incremental() %}
-            AND FALSE
-        {% endif %}
+
 ),
 
 latest_recorded AS (

@@ -16,7 +16,7 @@ WITH relevant_tweets AS (
         mentioned_ids,
         hashtags,
         text
-    FROM {{ ref('relevant_tweets') }}
+    FROM {{ ref('tweets_relevant_all') }}
 ),
 
 users AS (
@@ -43,19 +43,17 @@ sentiment_toxicity AS (
         tweet_id,
         sentiment_score,
         toxicity_score
-    FROM {{ ref('toxcity_predictions') }}
+    FROM {{ ref('toxicity_predictions') }}
 ),
 
 politician_data AS (
     SELECT
         user_id,
-        party,
-        office,
-        institution,
-        region,
-        gender,
-        year_of_birth
+        party
     FROM {{ ref('01_political_users') }}
+    GROUP BY
+        user_id,
+        party
 ),
 
 hashtag_categories AS (
@@ -76,7 +74,7 @@ tweet_categories AS (
     GROUP BY td.tweet_id
 ),
 
-final AS (
+joined AS (
     SELECT
         td.tweet_id,
         td.user_id,
@@ -100,16 +98,11 @@ final AS (
             ELSE st.sentiment_score
         END AS sentiment_score,
         pd.party,
-        pd.office,
-        pd.institution,
-        pd.region,
-        pd.gender,
-        pd.year_of_birth,
         tc.aggregated_categories
     FROM relevant_tweets AS td
     LEFT JOIN sentiment_toxicity AS st 
         ON td.tweet_id = st.tweet_id
-    -- Join for original tweet sentiment/toxicity scores
+
     LEFT JOIN sentiment_toxicity AS st_original 
         ON td.refers_to_tweet_id = st_original.tweet_id
     LEFT JOIN politician_data AS pd 
@@ -118,6 +111,19 @@ final AS (
         ON td.user_id = u.user_id
     LEFT JOIN tweet_categories AS tc 
         ON td.tweet_id = tc.tweet_id
+), rows_added AS (
+
+    SELECT *,
+    ROW_NUMBER() OVER (PARTITION BY tweet_id ORDER BY created_at DESC, text ASC) AS row_num
+    FROM joined
+
+),
+final AS (
+
+    SELECT * EXCEPT(row_num)
+    FROM rows_added
+    WHERE row_num = 1
+
 )
 
 SELECT * 

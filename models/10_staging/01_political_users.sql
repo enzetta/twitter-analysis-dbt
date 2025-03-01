@@ -36,13 +36,8 @@ matched_users AS (
         source.recorded_at,
         -- Nimm Partei-Info entweder vom Handle- oder ID-Match
         COALESCE(epi_netz_handle.party, epi_netz_id.party) AS party,
-        COALESCE(epi_netz_handle.institution, epi_netz_id.institution) AS institution,
-        COALESCE(epi_netz_handle.office, epi_netz_id.office) AS office,
-        COALESCE(epi_netz_handle.region, epi_netz_id.region) AS region,
         COALESCE(epi_netz_handle.twitter_name, epi_netz_id.twitter_name) AS twitter_name,
         COALESCE(epi_netz_handle.twitter_handle, epi_netz_id.twitter_handle) AS twitter_handle,
-        COALESCE(epi_netz_handle.year_of_birth, epi_netz_id.year_of_birth) AS year_of_birth,
-        COALESCE(epi_netz_handle.gender, epi_netz_id.gender) AS gender,
         COALESCE(epi_netz_handle.wikidata_id, epi_netz_id.wikidata_id) AS wikidata_id
     FROM source
     -- Join über Twitter Handle (screen_name)

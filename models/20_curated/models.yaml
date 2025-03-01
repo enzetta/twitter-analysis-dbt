@@ -1,0 +1,200 @@
+version: 2
+
+models:
+  - name: hashtags_categories_aggregated
+    description: >
+      Aggregated view of hashtags with their usage statistics and an array of categories.
+      Categories are aggregated from semicolon-delimited lists into arrays.
+    columns:
+      - name: hashtag
+        description: Individual hashtag
+      - name: usage_count
+        description: Number of times the hashtag was used
+      - name: unique_users
+        description: Count of unique users who used this hashtag
+      - name: politician_users
+        description: Count of politicians who used this hashtag
+      - name: first_used_at
+        description: Timestamp of earliest usage
+      - name: last_used_at
+        description: Timestamp of most recent usage
+      - name: pct_political_users
+        description: Percentage of users who are politicians
+      - name: days_active
+        description: Number of days between first and last usage
+      - name: categories
+        description: Array of categories assigned to the hashtag
+
+  - name: hashtags_categories_exploded
+    description: >
+      Exploded view of hashtag categories where each hashtag-category pair is on a separate row.
+      Categories are split from semicolon-delimited lists.
+    columns:
+      - name: hashtag
+        description: Individual hashtag
+      - name: usage_count
+        description: Number of times the hashtag was used
+      - name: unique_users
+        description: Count of unique users who used this hashtag
+      - name: politician_users
+        description: Count of politicians who used this hashtag
+      - name: first_used_at
+        description: Timestamp of earliest usage
+      - name: last_used_at
+        description: Timestamp of most recent usage
+      - name: pct_political_users
+        description: Percentage of users who are politicians
+      - name: days_active
+        description: Number of days between first and last usage
+      - name: category
+        description: Individual category assigned to the hashtag (trimmed)
+
+  - name: network_all
+    description: >
+      Comprehensive network model that captures various types of relationships between entities
+      including user-to-user interactions, user-to-hashtag connections, and hashtag co-occurrences.
+    columns:
+      - name: source
+        description: Source entity (user screen name or hashtag)
+      - name: target
+        description: Target entity (user screen name or hashtag)
+      - name: connection_type
+        description: Type of connection (person_person, person_mention, person_hashtag, hashtag_hashtag)
+      - name: entity_type
+        description: Type of entities involved (person, mixed, hashtag)
+      - name: month_start
+        description: Start month of the aggregation period
+      - name: edge_weight
+        description: Count of interactions between source and target
+      - name: avg_toxicity
+        description: Average toxicity score for the interactions
+      - name: sum_toxicity
+        description: Sum of toxicity scores for the interactions
+
+  - name: network_all_hashtags_users
+    description: >
+      Filtered view of network_all showing connections between hashtags and users,
+      aggregated by month with toxicity metrics.
+    columns:
+      - name: source
+        description: Source entity (user screen name or hashtag)
+      - name: target
+        description: Target entity (user screen name or hashtag)
+      - name: month_start
+        description: Start month of the aggregation period
+      - name: weight
+        description: Count of interactions between source and target
+      - name: sum_toxicity
+        description: Sum of toxicity scores for the interactions
+      - name: avg_toxicity
+        description: Average toxicity score for the interactions
+
+  - name: network_all_users
+    description: >
+      Filtered view of network_all showing only user-to-user connections,
+      aggregated by month with toxicity metrics.
+    columns:
+      - name: source
+        description: Source user (screen name)
+      - name: target
+        description: Target user (screen name)
+      - name: month_start
+        description: Start month of the aggregation period
+      - name: weight
+        description: Count of interactions between source and target
+      - name: sum_toxicity
+        description: Sum of toxicity scores for the interactions
+      - name: avg_toxicity
+        description: Average toxicity score for the interactions
+
+  - name: network_climate_users
+    description: >
+      Network of user-to-user interactions specifically within climate-related discussions,
+      filtered to include only interactions on climate topics.
+    columns:
+      - name: source
+        description: Source user (screen name)
+      - name: target
+        description: Target user (screen name)
+      - name: month_start
+        description: Start month of the aggregation period
+      - name: weight
+        description: Count of interactions between source and target
+      - name: sum_toxicity
+        description: Sum of toxicity scores for the interactions
+      - name: avg_toxicity
+        description: Average toxicity score for the interactions
+
+  - name: network_migration_users
+    description: >
+      Network of user-to-user interactions specifically within migration-related discussions,
+      filtered to include only interactions on migration and refugee topics.
+    columns:
+      - name: source
+        description: Source user (screen name)
+      - name: target
+        description: Target user (screen name)
+      - name: month_start
+        description: Start month of the aggregation period
+      - name: weight
+        description: Count of interactions between source and target
+      - name: sum_toxicity
+        description: Sum of toxicity scores for the interactions
+      - name: avg_toxicity
+        description: Average toxicity score for the interactions
+
+  - name: tweets_relevant_all
+    description: >
+      A curated list of tweets that are relevant to the analysis of political hashtags.
+      Includes tweets that are tagged with a hashtag, and tweets that are referenced by
+      other tweets tagged with the same hashtag.
+
+  - name: tweets_relevant_with_predictions
+    description: >
+      Enhanced version of tweets_relevant_all that includes sentiment and toxicity predictions,
+      user information, and categorization based on hashtags used.
+    columns:
+      - name: tweet_id
+        description: Unique identifier for the tweet
+      - name: user_id
+        description: User ID of the tweet author
+      - name: screen_name
+        description: Twitter handle of the tweet author
+      - name: lang
+        description: Language of the user profile
+      - name: location
+        description: User-provided location
+      - name: name
+        description: Display name of the user
+      - name: created_at
+        description: Timestamp when the tweet was created
+      - name: type
+        description: Type of tweet (original, reply, retweet, etc.)
+      - name: refers_to_user_id
+        description: User ID being referred to (for replies)
+      - name: refers_to_tweet_id
+        description: Tweet ID being referred to (for replies or retweets)
+      - name: mentioned_ids
+        description: Array of user IDs mentioned in the tweet
+      - name: hashtags
+        description: Array of hashtags used in the tweet
+      - name: text
+        description: Text content of the tweet
+      - name: toxicity_score
+        description: Toxicity score of the tweet content
+      - name: sentiment_score
+        description: Sentiment score of the tweet content
+      - name: party
+        description: Political party of the author (if applicable)
+      - name: aggregated_categories
+        description: Array of categories associated with the hashtags in the tweet
+
+  - name: tweets_relevant_climate
+    description: >
+      Climate-related subset of tweets from tweets_relevant_with_predictions, filtered to include only
+      tweets with hashtags categorized as related to climate topics.
+
+  - name: tweets_relevant_migration
+    description: >
+      Migration-related subset of tweets from tweets_relevant_with_predictions, filtered to include only
+      tweets with hashtags categorized as related to migration and refugee topics.

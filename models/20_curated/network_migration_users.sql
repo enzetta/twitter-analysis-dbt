@@ -18,7 +18,7 @@ WITH user_replies AS (
         AVG(rt.toxicity_score) AS avg_toxicity,
         SUM(rt.sentiment_score) AS sum_sentiment,
         SUM(rt.toxicity_score) AS sum_toxicity
-    FROM {{ ref('relevant_tweets_with_predictions_migration') }} rt
+    FROM {{ ref('tweets_relevant_migration') }} rt
     LEFT JOIN {{ ref('users') }} u2 
         ON rt.refers_to_user_id = u2.user_id
     WHERE rt.refers_to_user_id IS NOT NULL
@@ -40,7 +40,7 @@ user_mentions AS (
         AVG(rt.toxicity_score) AS avg_toxicity,
         SUM(rt.sentiment_score) AS sum_sentiment,
         SUM(rt.toxicity_score) AS sum_toxicity
-    FROM {{ ref('relevant_tweets_with_predictions_migration') }} rt
+    FROM {{ ref('tweets_relevant_migration') }} rt
     CROSS JOIN UNNEST(rt.mentioned_ids) AS mentioned_id
     LEFT JOIN {{ ref('users') }} u2 
         ON mentioned_id = u2.user_id
@@ -62,7 +62,7 @@ hashtag_user_connections AS (
         AVG(rt.toxicity_score) AS avg_toxicity,
         SUM(rt.sentiment_score) AS sum_sentiment,
         SUM(rt.toxicity_score) AS sum_toxicity
-    FROM {{ ref('relevant_tweets_with_predictions_migration') }} rt
+    FROM {{ ref('tweets_relevant_migration') }} rt
     CROSS JOIN UNNEST(rt.hashtags) AS hashtag
     WHERE rt.screen_name IS NOT NULL 
         AND hashtag IS NOT NULL
@@ -82,7 +82,7 @@ hashtag_cooccurrence AS (
         AVG(rt.toxicity_score) AS avg_toxicity,
         SUM(rt.sentiment_score) AS sum_sentiment,
         SUM(rt.toxicity_score) AS sum_toxicity
-    FROM {{ ref('relevant_tweets_with_predictions_migration') }} rt
+    FROM {{ ref('tweets_relevant_migration') }} rt
     CROSS JOIN UNNEST(rt.hashtags) AS h1
     CROSS JOIN UNNEST(rt.hashtags) AS h2
     WHERE h1 < h2

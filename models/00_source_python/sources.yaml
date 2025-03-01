@@ -1,0 +1,282 @@
+version: 2
+
+sources:
+  - name: python_src
+    database: grounded-nebula-408412
+    schema: python_src
+    tables:
+      - name: network_all_node_metrics
+        description: >
+          Table containing network analysis metrics for all nodes (users) in the Twitter network,
+          including centrality measures, interaction counts, and toxicity metrics.
+        columns:
+          - name: row_id
+            description: Unique identifier for each row in the table.
+          - name: month_start
+            description: First day of the month for which metrics are calculated.
+          - name: node_id
+            description: Twitter user ID serving as the node identifier in the network.
+            tests:
+              - not_null
+          - name: pagerank
+            description: PageRank score indicating the node's importance in the network.
+          - name: degree_in
+            description: Number of incoming connections (users who interacted with this node).
+          - name: degree_out
+            description: Number of outgoing connections (users this node interacted with).
+          - name: betweenness
+            description: Betweenness centrality measuring how often the node lies on shortest paths.
+          - name: clustering
+            description: Clustering coefficient measuring how tightly connected the node's neighbors are.
+          - name: triangles
+            description: Count of triangles (closed triplets) that include this node.
+          - name: core_number
+            description: K-core number indicating the node's position in network shells.
+          - name: interactions_sent
+            description: Total number of interactions initiated by this node.
+          - name: interactions_received
+            description: Total number of interactions received by this node.
+          - name: interactions_total
+            description: Sum of all interactions this node was involved in.
+          - name: toxicity_sent
+            description: Total toxicity score of interactions sent by this node.
+          - name: toxicity_received
+            description: Total toxicity score of interactions received by this node.
+          - name: toxicity_sent_avg
+            description: Average toxicity score of interactions sent by this node.
+          - name: toxicity_received_avg
+            description: Average toxicity score of interactions received by this node.
+
+      - name: network_climate_node_metrics
+        description: >
+          Network metrics for nodes (users) in the climate-related discussion subnetwork,
+          filtered to include only interactions related to climate topics.
+        columns:
+          - name: row_id
+            description: Unique identifier for each row in the table.
+          - name: month_start
+            description: First day of the month for which metrics are calculated.
+          - name: node_id
+            description: Twitter user ID serving as the node identifier in the network.
+            tests:
+              - not_null
+          - name: pagerank
+            description: PageRank score indicating the node's importance in the climate discussion network.
+          - name: degree_in
+            description: Number of incoming connections in climate-related discussions.
+          - name: degree_out
+            description: Number of outgoing connections in climate-related discussions.
+          - name: betweenness
+            description: Betweenness centrality in the climate discussion subnetwork.
+          - name: clustering
+            description: Clustering coefficient within the climate discussion subnetwork.
+          - name: triangles
+            description: Count of triangles in the climate discussion subnetwork that include this node.
+          - name: core_number
+            description: K-core number in the climate discussion subnetwork.
+          - name: interactions_sent
+            description: Number of climate-related interactions sent by this node.
+          - name: interactions_received
+            description: Number of climate-related interactions received by this node.
+          - name: interactions_total
+            description: Total climate-related interactions this node was involved in.
+          - name: toxicity_sent
+            description: Total toxicity score of climate-related interactions sent by this node.
+          - name: toxicity_received
+            description: Total toxicity score of climate-related interactions received by this node.
+          - name: toxicity_sent_avg
+            description: Average toxicity score of climate-related interactions sent by this node.
+          - name: toxicity_received_avg
+            description: Average toxicity score of climate-related interactions received by this node.
+
+      - name: network_migration_node_metrics
+        description: >
+          Network metrics for nodes (users) in the migration-related discussion subnetwork,
+          filtered to include only interactions related to migration and refugee topics.
+        columns:
+          - name: row_id
+            description: Unique identifier for each row in the table.
+          - name: month_start
+            description: First day of the month for which metrics are calculated.
+          - name: node_id
+            description: Twitter user ID serving as the node identifier in the network.
+            tests:
+              - not_null
+          - name: pagerank
+            description: PageRank score indicating the node's importance in the migration discussion network.
+          - name: degree_in
+            description: Number of incoming connections in migration-related discussions.
+          - name: degree_out
+            description: Number of outgoing connections in migration-related discussions.
+          - name: betweenness
+            description: Betweenness centrality in the migration discussion subnetwork.
+          - name: clustering
+            description: Clustering coefficient within the migration discussion subnetwork.
+          - name: triangles
+            description: Count of triangles in the migration discussion subnetwork that include this node.
+          - name: core_number
+            description: K-core number in the migration discussion subnetwork.
+          - name: interactions_sent
+            description: Number of migration-related interactions sent by this node.
+          - name: interactions_received
+            description: Number of migration-related interactions received by this node.
+          - name: interactions_total
+            description: Total migration-related interactions this node was involved in.
+          - name: toxicity_sent
+            description: Total toxicity score of migration-related interactions sent by this node.
+          - name: toxicity_received
+            description: Total toxicity score of migration-related interactions received by this node.
+          - name: toxicity_sent_avg
+            description: Average toxicity score of migration-related interactions sent by this node.
+          - name: toxicity_received_avg
+            description: Average toxicity score of migration-related interactions received by this node.
+
+      # Add entries for the network network metrics tables
+      - name: network_climate_network_metrics
+        description: >
+          Network-level metrics for the climate discussion network, including density, modularity,
+          and other global network properties.
+        columns:
+          - name: row_id
+            description: Unique identifier for each row in the table.
+          - name: month_start
+            description: First day of the month for which metrics are calculated.
+          - name: table_name
+            description: Name of the table representing the network.
+          - name: nodes
+            description: Total number of nodes in the network.
+          - name: edges
+            description: Total number of edges in the network.
+          - name: density
+            description: Network density (ratio of actual to possible connections).
+          - name: connected_components
+            description: Number of connected components in the network.
+          - name: transitivity
+            description: Global transitivity/clustering coefficient of the network.
+          - name: modularity
+            description: Modularity score indicating community structure strength.
+          - name: modularity_classes
+            description: Number of communities detected in the network.
+          - name: assortativity
+            description: Degree assortativity coefficient of the network.
+          - name: network_avg_toxicity
+            description: Average toxicity score across all interactions in the network.
+          - name: median_node_toxicity
+            description: Median toxicity score of nodes in the network.
+          - name: max_core_number
+            description: Maximum k-core number found in the network.
+          - name: avg_core_number
+            description: Average k-core number across all nodes.
+          - name: rich_club_coefficient
+            description: Rich-club coefficient measuring connectivity among high-degree nodes.
+          - name: average_clustering
+            description: Average clustering coefficient across all nodes.
+
+      - name: network_migration_network_metrics
+        description: >
+          Network-level metrics for the migration discussion network, including density, modularity,
+          and other global network properties.
+        columns:
+          - name: row_id
+            description: Unique identifier for each row in the table.
+          - name: month_start
+            description: First day of the month for which metrics are calculated.
+          - name: table_name
+            description: Name of the table representing the network.
+          - name: nodes
+            description: Total number of nodes in the network.
+          - name: edges
+            description: Total number of edges in the network.
+          - name: density
+            description: Network density (ratio of actual to possible connections).
+          - name: connected_components
+            description: Number of connected components in the network.
+          - name: transitivity
+            description: Global transitivity/clustering coefficient of the network.
+          - name: modularity
+            description: Modularity score indicating community structure strength.
+          - name: modularity_classes
+            description: Number of communities detected in the network.
+          - name: assortativity
+            description: Degree assortativity coefficient of the network.
+          - name: network_avg_toxicity
+            description: Average toxicity score across all interactions in the network.
+          - name: median_node_toxicity
+            description: Median toxicity score of nodes in the network.
+          - name: max_core_number
+            description: Maximum k-core number found in the network.
+          - name: avg_core_number
+            description: Average k-core number across all nodes.
+          - name: rich_club_coefficient
+            description: Rich-club coefficient measuring connectivity among high-degree nodes.
+          - name: average_clustering
+            description: Average clustering coefficient across all nodes.
+
+      - name: network_all_network_metrics
+        description: >
+          Network-level metrics for the complete Twitter network, including density, modularity,
+          and other global network properties across all interactions.
+        columns:
+          - name: row_id
+            description: Unique identifier for each row in the table.
+          - name: month_start
+            description: First day of the month for which metrics are calculated.
+          - name: table_name
+            description: Name of the table representing the network.
+          - name: nodes
+            description: Total number of nodes in the network.
+          - name: edges
+            description: Total number of edges in the network.
+          - name: density
+            description: Network density (ratio of actual to possible connections).
+          - name: connected_components
+            description: Number of connected components in the network.
+          - name: transitivity
+            description: Global transitivity/clustering coefficient of the network.
+          - name: modularity
+            description: Modularity score indicating community structure strength.
+          - name: modularity_classes
+            description: Number of communities detected in the network.
+          - name: assortativity
+            description: Degree assortativity coefficient of the network.
+          - name: network_avg_toxicity
+            description: Average toxicity score across all interactions in the network.
+          - name: median_node_toxicity
+            description: Median toxicity score of nodes in the network.
+          - name: max_core_number
+            description: Maximum k-core number found in the network.
+          - name: avg_core_number
+            description: Average k-core number across all nodes.
+          - name: rich_club_coefficient
+            description: Rich-club coefficient measuring connectivity among high-degree nodes.
+          - name: average_clustering
+            description: Average clustering coefficient across all nodes.
+
+      - name: tweet_sentiment_analysis
+        description: >
+          Table containing sentiment and toxicity analysis predictions for tweets, 
+          along with associated probabilities and timestamps.
+        columns:
+          - name: tweet_id
+            description: Unique identifier of the tweet.
+            tests:
+              - not_null
+              - unique
+          - name: user_id
+            description: ID of the user who posted the tweet.
+          - name: recorded_at
+            description: Timestamp when the tweet was recorded.
+          - name: text
+            description: Text content of the tweet.
+          - name: sentiment
+            description: Sentiment classification of the tweet (positive, neutral, negative).
+          - name: positive_probability
+            description: Probability score for the tweet being classified as positive.
+          - name: neutral_probability
+            description: Probability score for the tweet being classified as neutral.
+          - name: negative_probability
+            description: Probability score for the tweet being classified as negative.
+          - name: toxicity_label
+            description: Label indicating whether the tweet is toxic or neutral.
+          - name: toxicity_score
+            description: Score indicating the degree of toxicity in the tweet.

@@ -34,7 +34,7 @@ WITH categories_of_interest AS (
 ),
 filtered_tweets AS (
     SELECT *
-    FROM {{ ref('relevant_tweets_with_predictions') }} tweets
+    FROM {{ ref('tweets_relevant_with_predictions') }} tweets
     WHERE EXISTS (
         SELECT 1
         FROM UNNEST(tweets.aggregated_categories) category
