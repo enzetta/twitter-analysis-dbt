@@ -1,9 +1,9 @@
 version: 2
 
 sources:
-  - name: python_src
+  - name: base_twitter_python
     database: grounded-nebula-408412
-    schema: python_src
+    schema: base_twitter_python
     tables:
       - name: network_all_node_metrics
         description: >

@@ -9,7 +9,7 @@
 
 WITH source AS (
     SELECT * 
-    FROM {{ source("python_src", "network_all_network_metrics") }}
+    FROM {{ source("base_twitter_python", "network_all_network_metrics") }}
 ),
 
 final AS (

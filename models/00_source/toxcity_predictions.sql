@@ -24,7 +24,7 @@ WITH predictions AS (
         END AS adjusted_toxicity_score,
         (sentiment.positive_probability - sentiment.negative_probability) AS sentiment_score
     FROM {{ ref("tweet_sentiment_analysis") }} AS sentiment
-    -- FROM {{ source("python_src", "tweet_sentiment_analysis") }} sentiment
+    -- FROM {{ source("base_twitter_python", "tweet_sentiment_analysis") }} sentiment
     LEFT JOIN {{ ref('interactions') }} AS interactions
         ON sentiment.tweet_id = interactions.tweet_id
 )

@@ -2,9 +2,9 @@ version: 2
 
 sources:
 
-  - name: src_twitter
+  - name: base_twitter_raw
     database: grounded-nebula-408412
-    schema: twitter
+    schema: base_twitter_raw
     description: Raw Twitter data from Zenodo dataset
     tables:
       - name: raw-zenodo-2022-11

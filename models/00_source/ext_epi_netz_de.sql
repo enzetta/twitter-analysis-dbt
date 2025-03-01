@@ -8,7 +8,7 @@
 
 WITH source AS (
     SELECT *
-    FROM {{ source("src_twitter", "ext_epi_netz_de") }}
+    FROM {{ source("base_twitter_raw", "ext_epi_netz_de") }}
 ),
 
 final AS (

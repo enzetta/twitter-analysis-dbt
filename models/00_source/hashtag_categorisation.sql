@@ -8,7 +8,7 @@
 
 WITH source AS (
     SELECT *
-    FROM {{ source("src_twitter", "hashtag_categorisation") }}
+    FROM {{ source("base_twitter_raw", "hashtag_categorisation") }}
 ),
 
 final AS (
